@@ -10,9 +10,17 @@ public class frmNewGame : Form
     private Button btnStartGame;
     private Label label3;
     private Button btnCancel;
+
+    //=========== Constant Member ==========
+    const int BASE10 = 1;
+    const int BASE20 = 2;
+    const int BASE30 = 3;
+
     //=========== Instance Member ==========
-    private int readyStatus = 0;
+    private int readyStatus = 0;    // 0 is aren't ready
+    private int gameType;
     private string namePlayer;
+    private string gameTypeText;
 
     #region windows code
     private void InitializeComponent()
@@ -100,6 +108,7 @@ public class frmNewGame : Form
             // 
             // frmNewGame
             // 
+            this.AcceptButton = this.btnStartGame;
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnCancel);
@@ -112,19 +121,22 @@ public class frmNewGame : Form
             this.MinimizeBox = false;
             this.Name = "frmNewGame";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "เริ่มเกมใหม่";
             this.ResumeLayout(false);
             this.PerformLayout();
 
     }
     #endregion windows code
 
+    //=============== constructor ===========
     public frmNewGame()
     {
         InitializeComponent();
         cbType.SelectedIndex = 0;
         txtPlayerName.Select();
     }
-    #region get set method
+    #region property method
+    //================ property method ==============
     public int ReadyStatus
     {
         get
@@ -140,17 +152,70 @@ public class frmNewGame : Form
             return namePlayer;
         }
     }
+
+    public int GameType
+    {
+        get
+        {
+            return gameType;
+        }
+    }
+
+    public string GameTypeText
+    {
+        get
+        {
+            return gameTypeText;
+        }
+    }
     #endregion get set method
+
+    #region general method
+
+    /***
+     * purpose : receive information to start game
+     * parameter :
+     *      N/A
+     * return :
+     *      void
+     ***/
+    private void btnStartGame_Click(object sender, EventArgs e)
+    {
+        GameTypeConsider();
+        namePlayer = txtPlayerName.Text;
+        readyStatus = 1;    // 1 is ready
+        Close();
+    }
+
+    /***
+     * purpose : determine game type and set text of game type to class property
+     * parameter :
+     *      N/A
+     * return :
+     *      void
+     ***/
+    private void GameTypeConsider()
+    {
+        if (cbType.SelectedIndex == 0)
+        {
+            gameType = BASE10;
+            gameTypeText = "1-10 แทง 2";
+        }
+        else if (cbType.SelectedIndex == 1)
+        {
+            gameType = BASE20;
+            gameTypeText = "1-20 แทง 3";
+        }
+        else if (cbType.SelectedIndex == 2)
+        {
+            gameType = BASE30;
+            gameTypeText = "1-30 แทง 4";
+        }
+    }
 
     private void btnCancel_Click(object sender, EventArgs e)
     {
         Close();
     }
-
-    private void btnStartGame_Click(object sender, EventArgs e)
-    {
-        namePlayer = txtPlayerName.Text;
-        readyStatus = 1;
-        Close();
-    }
+    #endregion general method
 }

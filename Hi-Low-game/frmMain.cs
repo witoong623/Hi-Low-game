@@ -12,6 +12,9 @@ public class frmMain : Form
     private ToolStripSeparator toolStripMenuItem1;
     private ToolStripMenuItem smnClose;
     private Label label1;
+    private Button btnBet;
+    private Button btnRandom;
+    private Label label3;
     //============ Instance Member ===========
     private int readyToPlayStatus = 0;
 
@@ -27,12 +30,15 @@ public class frmMain : Form
             this.smnNewGame = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.smnClose = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnBet = new System.Windows.Forms.Button();
+            this.btnRandom = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             this.mnsMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(291, 213);
+            this.label1.Location = new System.Drawing.Point(367, 27);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(145, 18);
             this.label1.TabIndex = 0;
@@ -41,7 +47,7 @@ public class frmMain : Form
             // 
             // txtCurrentBalance
             // 
-            this.txtCurrentBalance.Location = new System.Drawing.Point(442, 213);
+            this.txtCurrentBalance.Location = new System.Drawing.Point(518, 27);
             this.txtCurrentBalance.Name = "txtCurrentBalance";
             this.txtCurrentBalance.ReadOnly = true;
             this.txtCurrentBalance.Size = new System.Drawing.Size(100, 20);
@@ -49,7 +55,7 @@ public class frmMain : Form
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(291, 174);
+            this.label2.Location = new System.Drawing.Point(367, 53);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(145, 18);
             this.label2.TabIndex = 2;
@@ -58,7 +64,7 @@ public class frmMain : Form
             // 
             // txtBetAmount
             // 
-            this.txtBetAmount.Location = new System.Drawing.Point(442, 174);
+            this.txtBetAmount.Location = new System.Drawing.Point(518, 53);
             this.txtBetAmount.Name = "txtBetAmount";
             this.txtBetAmount.Size = new System.Drawing.Size(100, 20);
             this.txtBetAmount.TabIndex = 3;
@@ -69,7 +75,7 @@ public class frmMain : Form
             this.mnMenu});
             this.mnsMain.Location = new System.Drawing.Point(0, 0);
             this.mnsMain.Name = "mnsMain";
-            this.mnsMain.Size = new System.Drawing.Size(554, 24);
+            this.mnsMain.Size = new System.Drawing.Size(630, 24);
             this.mnsMain.TabIndex = 4;
             this.mnsMain.Text = "menuStrip1";
             // 
@@ -86,25 +92,56 @@ public class frmMain : Form
             // smnNewGame
             // 
             this.smnNewGame.Name = "smnNewGame";
-            this.smnNewGame.Size = new System.Drawing.Size(152, 22);
+            this.smnNewGame.Size = new System.Drawing.Size(123, 22);
             this.smnNewGame.Text = "เริ่มเกมใหม่";
             this.smnNewGame.Click += new System.EventHandler(this.smnNewGame_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(120, 6);
             // 
             // smnClose
             // 
             this.smnClose.Name = "smnClose";
-            this.smnClose.Size = new System.Drawing.Size(152, 22);
+            this.smnClose.Size = new System.Drawing.Size(123, 22);
             this.smnClose.Text = "ออกเกม";
             this.smnClose.Click += new System.EventHandler(this.smnClose_Click);
             // 
+            // btnBet
+            // 
+            this.btnBet.Location = new System.Drawing.Point(397, 184);
+            this.btnBet.Name = "btnBet";
+            this.btnBet.Size = new System.Drawing.Size(75, 23);
+            this.btnBet.TabIndex = 5;
+            this.btnBet.Text = "แทง";
+            this.btnBet.UseVisualStyleBackColor = true;
+            // 
+            // btnRandom
+            // 
+            this.btnRandom.Location = new System.Drawing.Point(518, 184);
+            this.btnRandom.Name = "btnRandom";
+            this.btnRandom.Size = new System.Drawing.Size(75, 23);
+            this.btnRandom.TabIndex = 6;
+            this.btnRandom.Text = "คอมสุ่ม";
+            this.btnRandom.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(105, 91);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(60, 24);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "label3";
+            // 
             // frmMain
             // 
-            this.ClientSize = new System.Drawing.Size(554, 261);
+            this.ClientSize = new System.Drawing.Size(630, 261);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.btnRandom);
+            this.Controls.Add(this.btnBet);
             this.Controls.Add(this.txtBetAmount);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtCurrentBalance);
@@ -125,7 +162,7 @@ public class frmMain : Form
     public frmMain()
     {
         InitializeComponent();
-        GettingProgramReady(readyToPlayStatus);
+        GettingProgramReady();
     }
 
     public static void Main()
@@ -148,9 +185,12 @@ public class frmMain : Form
     {
         frmNewGame newGame = new frmNewGame();
         newGame.ShowDialog();
-        this.Text += " - ยินดีต้อนรับคุณ " + newGame.NamePlayer+" รูปแบบเกมของคุณคือ";
-        readyToPlayStatus = newGame.ReadyStatus;
-        GettingProgramReady(readyToPlayStatus);
+        if (newGame.ReadyStatus==1)
+        {
+            this.Text += " - ยินดีต้อนรับคุณ " + newGame.NamePlayer + " รูปแบบเกมของคุณคือ " + newGame.GameTypeText;
+            readyToPlayStatus = newGame.ReadyStatus;
+            GettingProgramReady();
+        }
         return;
     }
 
@@ -162,15 +202,17 @@ public class frmMain : Form
      * Return
      *      void
      ***/
-    private void GettingProgramReady(int flag)
+    private void GettingProgramReady()
     {
-        if (flag == 1)
+        if (readyToPlayStatus == 1)
         {
-            txtBetAmount.ReadOnly = false;
+            txtBetAmount.Enabled = true;
+            txtCurrentBalance.Enabled = true;
         }
-        else if (flag == 0)
+        else if (readyToPlayStatus == 0)
         {
-            txtBetAmount.ReadOnly = true;
+            txtBetAmount.Enabled = false;
+            txtCurrentBalance.Enabled = false;
         }
     }
     #endregion getting program ready
