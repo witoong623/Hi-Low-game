@@ -41,9 +41,7 @@ public class frmNewGame : Form
             this.cbType.Items.AddRange(new object[] {
             "1-10 แทง 2",
             "1-20 แทง 3",
-            "1-30 แทง 4",
-            "1-40 แทง 5",
-            "1-50 แทง 6"});
+            "1-30 แทง 4"});
             this.cbType.Location = new System.Drawing.Point(127, 116);
             this.cbType.Name = "cbType";
             this.cbType.Size = new System.Drawing.Size(145, 21);

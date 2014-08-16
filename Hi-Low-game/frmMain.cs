@@ -14,9 +14,15 @@ public class frmMain : Form
     private Label label1;
     private Button btnBet;
     private Button btnRandom;
-    private Label label3;
+    private Label lblClue;
+    private Label lblTellRange;
+    private TextBox txtBetNumber;
+    private Label lblTimeRemain;
     //============ Instance Member ===========
     private int readyToPlayStatus = 0;
+    private int GameType;
+    private string GameTypeText;
+    private clsWallet myWallet;
 
     #region windows code
     private void InitializeComponent()
@@ -32,7 +38,10 @@ public class frmMain : Form
             this.smnClose = new System.Windows.Forms.ToolStripMenuItem();
             this.btnBet = new System.Windows.Forms.Button();
             this.btnRandom = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblClue = new System.Windows.Forms.Label();
+            this.lblTellRange = new System.Windows.Forms.Label();
+            this.txtBetNumber = new System.Windows.Forms.TextBox();
+            this.lblTimeRemain = new System.Windows.Forms.Label();
             this.mnsMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,6 +61,7 @@ public class frmMain : Form
             this.txtCurrentBalance.ReadOnly = true;
             this.txtCurrentBalance.Size = new System.Drawing.Size(100, 20);
             this.txtCurrentBalance.TabIndex = 1;
+            this.txtCurrentBalance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label2
             // 
@@ -68,6 +78,8 @@ public class frmMain : Form
             this.txtBetAmount.Name = "txtBetAmount";
             this.txtBetAmount.Size = new System.Drawing.Size(100, 20);
             this.txtBetAmount.TabIndex = 3;
+            this.txtBetAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtBetAmount.Click+=txtBetAmount_Click;
             // 
             // mnsMain
             // 
@@ -116,6 +128,7 @@ public class frmMain : Form
             this.btnBet.TabIndex = 5;
             this.btnBet.Text = "แทง";
             this.btnBet.UseVisualStyleBackColor = true;
+            this.btnBet.Click += new System.EventHandler(this.btnBet_Click);
             // 
             // btnRandom
             // 
@@ -125,21 +138,51 @@ public class frmMain : Form
             this.btnRandom.TabIndex = 6;
             this.btnRandom.Text = "คอมสุ่ม";
             this.btnRandom.UseVisualStyleBackColor = true;
+            this.btnRandom.Click += new System.EventHandler(this.btnRandom_Click);
             // 
-            // label3
+            // lblClue
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(105, 91);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(60, 24);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "label3";
+            this.lblClue.AutoSize = true;
+            this.lblClue.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblClue.Location = new System.Drawing.Point(113, 96);
+            this.lblClue.Name = "lblClue";
+            this.lblClue.Size = new System.Drawing.Size(0, 24);
+            this.lblClue.TabIndex = 7;
+            // 
+            // lblTellRange
+            // 
+            this.lblTellRange.AutoSize = true;
+            this.lblTellRange.Location = new System.Drawing.Point(429, 104);
+            this.lblTellRange.Name = "lblTellRange";
+            this.lblTellRange.Size = new System.Drawing.Size(129, 13);
+            this.lblTellRange.TabIndex = 8;
+            this.lblTellRange.Text = "ใส่จำนวนที่ต้องการระหว่าง";
+            // 
+            // txtBetNumber
+            // 
+            this.txtBetNumber.Location = new System.Drawing.Point(452, 132);
+            this.txtBetNumber.Name = "txtBetNumber";
+            this.txtBetNumber.Size = new System.Drawing.Size(100, 20);
+            this.txtBetNumber.TabIndex = 9;
+            this.txtBetNumber.Click += txtBetNumber_Click;
+            // 
+            // lblTimeRemain
+            // 
+            this.lblTimeRemain.AutoSize = true;
+            this.lblTimeRemain.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTimeRemain.Location = new System.Drawing.Point(20, 48);
+            this.lblTimeRemain.Name = "lblTimeRemain";
+            this.lblTimeRemain.Size = new System.Drawing.Size(0, 18);
+            this.lblTimeRemain.TabIndex = 10;
+            this.lblTimeRemain.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // frmMain
             // 
             this.ClientSize = new System.Drawing.Size(630, 261);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lblTimeRemain);
+            this.Controls.Add(this.txtBetNumber);
+            this.Controls.Add(this.lblTellRange);
+            this.Controls.Add(this.lblClue);
             this.Controls.Add(this.btnRandom);
             this.Controls.Add(this.btnBet);
             this.Controls.Add(this.txtBetAmount);
@@ -163,6 +206,7 @@ public class frmMain : Form
     {
         InitializeComponent();
         GettingProgramReady();
+        DisableForm();
     }
 
     public static void Main()
@@ -172,7 +216,9 @@ public class frmMain : Form
         Application.Run(main);
     }
 
-    #region getting program ready
+    #region helper method
+    //========== helper method ==========
+
     /***
      * porpose : new form to start game
      * and update text property to playername and game's type
@@ -185,21 +231,57 @@ public class frmMain : Form
     {
         frmNewGame newGame = new frmNewGame();
         newGame.ShowDialog();
-        if (newGame.ReadyStatus==1)
+        if (newGame.ReadyStatus == 1)
         {
-            this.Text += " - ยินดีต้อนรับคุณ " + newGame.NamePlayer + " รูปแบบเกมของคุณคือ " + newGame.GameTypeText;
-            readyToPlayStatus = newGame.ReadyStatus;
+            GameTypeText = newGame.GameTypeText;
+            this.Text += " - ยินดีต้อนรับคุณ " + newGame.NamePlayer + " รูปแบบเกมของคุณคือ " + GameTypeText;
+            lblTellRange.Text = "ใส่จำนวนที่ต้องการระหว่าง " + newGame.GameTypeText.Substring(0, 4);
             GettingProgramReady();
+            GameType = newGame.GameType;
+            myWallet = new clsWallet(GameType);
+            UpdateForm();
+            lblClue.Text = "กรุณาใส่จำนวนเงินและกดสุ่ม";
+            btnRandom.Enabled = true;
         }
         return;
     }
 
     /***
+     * purpose : to disable all form
+     * parameter :
+     *      N/A
+     * return :
+     *      void
+     ***/
+    private void DisableForm()
+    {
+        btnBet.Enabled = false;
+        btnRandom.Enabled = false;
+        txtBetNumber.Enabled = false;
+        txtBetAmount.Enabled = false;
+        lblClue.Enabled = false;
+        lblTellRange.Enabled = false;
+        lblTimeRemain.Enabled = false;
+    }
+
+    /***
+     * purpose : to reset value in form to default
+     * parameter :
+     *      N/A
+     * return
+     *      void
+     ***/
+    private void UpdateForm()
+    {
+        txtCurrentBalance.Text = myWallet.CurrentBalance.ToString("C");
+        txtBetAmount.Text = myWallet.CurrentBet.ToString();
+    }
+    /***
      * porpose : adjust form to ready to play 
      * depend on player entered name and selected game's type
      * Parameter :
      *      int flag
-     * Return
+     * return
      *      void
      ***/
     private void GettingProgramReady()
@@ -215,11 +297,130 @@ public class frmMain : Form
             txtCurrentBalance.Enabled = false;
         }
     }
-    #endregion getting program ready
+
+    private void ReadyToBet()
+    {
+        btnBet.Enabled = true;
+        txtBetNumber.Enabled = true;
+        txtBetAmount.Enabled = false;
+        btnRandom.Enabled = false;
+    }
+
+    private void NotReadyToBet()
+    {
+        btnRandom.Enabled = true;
+        btnBet.Enabled = false;
+        txtBetAmount.Enabled = true;
+        txtBetNumber.Enabled = false;
+    }
+
+    private void txtBetAmount_Click(object sender, EventArgs e)
+    {
+        txtBetAmount.SelectAll();
+    }
+
+    private void txtBetNumber_Click(object sender, EventArgs e)
+    {
+        txtBetNumber.SelectAll();
+    }
+
+    #endregion helper method
+
+    #region general method
+
+    private void btnRandom_Click(object sender, EventArgs e)
+    {
+        bool flag;
+        int money;
+
+        flag = int.TryParse(txtBetAmount.Text, out money);
+        if (flag == false)
+        {
+            MessageBox.Show("กรุณาป้อนตัวเลขเท่านั้น","ป้อนค่าไม่ถูกต้อง");
+            txtBetAmount.SelectAll();
+            return;
+        }
+
+        if(money < 0 || money > myWallet.CurrentBalance)
+        {
+            MessageBox.Show("กรุณาใส่จำนวนเงินมากกว่า 0 \n" +
+            "แต่น้อยกว่าจำนวนเงินที่คุณมี(จำนวนเงินที่คุณมีคือ " + 
+            myWallet.CurrentBalance.ToString("C") + ")", "จำนวนเงินไม่ถูกต้อง");
+            txtBetAmount.SelectAll();
+            return;
+        }
+
+        myWallet.CurrentBet = money;
+        myWallet.ComputerRandom();
+        ReadyToBet();
+        UpdateForm();
+        lblClue.Text = "";
+        lblTimeRemain.Text = "คุณแทงได้อีก " + myWallet.NumberOfTime.ToString() + " ครั้ง";
+    }
+
+    private void btnBet_Click(object sender, EventArgs e)
+    {
+        bool flag;
+        int number;
+        string clue = "";
+
+        flag = int.TryParse(txtBetNumber.Text, out number);
+        if (flag == false)  //case input aren't digit
+        {
+            MessageBox.Show("กรุณาใส่แต่ตัวเลขเท่านั้น", "ป้อนตัวเลขไม่ถูกต้อง");
+            txtBetNumber.Clear();
+            txtBetNumber.Select();
+            return;
+        }
+
+        if (GameType == 1 && (number < 1 || number > 10))   //case out of range
+        {
+            MessageBox.Show("กรุณาป้อนเลขตั้งแต่ " + GameTypeText.Substring(0, 4),"ค่าที่รับมาไม่อยู่ในช่วง");
+            txtBetNumber.Clear();
+            txtBetNumber.Select();
+            return;
+        }
+        else if (GameType == 2 && (number < 1 || number > 20))
+        {
+            MessageBox.Show("กรุณาป้อนเลขตั้งแต่ " + GameTypeText.Substring(0, 4),"ค่าที่รับมาไม่อยู่ในช่วง");
+            txtBetNumber.Clear();
+            txtBetNumber.Select();
+            return;
+        }
+        else if (GameType == 3 && (number < 1 || number > 30))
+        {
+            MessageBox.Show("กรุณาป้อนเลขตั้งแต่ " + GameTypeText.Substring(0, 4),"ค่าที่รับมาไม่อยู่ในช่วง");
+            txtBetNumber.Clear();
+            txtBetNumber.Select();
+            return;
+        }
+
+        flag = myWallet.CompareToComputer(number, out clue);
+        lblClue.Text = clue;
+        lblTimeRemain.Text = "คุณแทงได้อีก " + myWallet.NumberOfTime.ToString() + " ครั้ง";
+        if (flag == true && !(myWallet.NumberOfTime < 0))
+        {
+            NotReadyToBet();
+            UpdateForm();
+            txtBetNumber.Clear();
+            myWallet.SetWallet(GameType);
+            lblClue.Text = "คุณชนะ";
+            return;
+        }
+        else if (flag == false && myWallet.NumberOfTime == 0)
+        {
+            NotReadyToBet();
+            UpdateForm();
+            txtBetNumber.Clear();
+            myWallet.SetWallet(GameType);
+            lblClue.Text = "คุณแพ้";
+            return;
+        }
+    }
 
     private void smnClose_Click(object sender, EventArgs e)
     {
-
         Close();
     }
+    #endregion general method
 }
