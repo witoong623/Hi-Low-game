@@ -19,9 +19,10 @@ public class frmMain : Form
     private TextBox txtBetNumber;
     private Label lblTimeRemain;
     //============ Instance Member ===========
-    private int readyToPlayStatus = 0;
     private int GameType;
     private string GameTypeText;
+    private ToolStripMenuItem mnHelp;
+    private ToolStripMenuItem smnAboutProgram;
     private clsWallet myWallet;
 
     #region windows code
@@ -42,6 +43,8 @@ public class frmMain : Form
             this.lblTellRange = new System.Windows.Forms.Label();
             this.txtBetNumber = new System.Windows.Forms.TextBox();
             this.lblTimeRemain = new System.Windows.Forms.Label();
+            this.mnHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.smnAboutProgram = new System.Windows.Forms.ToolStripMenuItem();
             this.mnsMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,12 +82,12 @@ public class frmMain : Form
             this.txtBetAmount.Size = new System.Drawing.Size(100, 20);
             this.txtBetAmount.TabIndex = 3;
             this.txtBetAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.txtBetAmount.Click+=txtBetAmount_Click;
             // 
             // mnsMain
             // 
             this.mnsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnMenu});
+            this.mnMenu,
+            this.mnHelp});
             this.mnsMain.Location = new System.Drawing.Point(0, 0);
             this.mnsMain.Name = "mnsMain";
             this.mnsMain.Size = new System.Drawing.Size(630, 24);
@@ -104,19 +107,19 @@ public class frmMain : Form
             // smnNewGame
             // 
             this.smnNewGame.Name = "smnNewGame";
-            this.smnNewGame.Size = new System.Drawing.Size(123, 22);
+            this.smnNewGame.Size = new System.Drawing.Size(152, 22);
             this.smnNewGame.Text = "เริ่มเกมใหม่";
             this.smnNewGame.Click += new System.EventHandler(this.smnNewGame_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(120, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
             // 
             // smnClose
             // 
             this.smnClose.Name = "smnClose";
-            this.smnClose.Size = new System.Drawing.Size(123, 22);
+            this.smnClose.Size = new System.Drawing.Size(152, 22);
             this.smnClose.Text = "ออกเกม";
             this.smnClose.Click += new System.EventHandler(this.smnClose_Click);
             // 
@@ -164,7 +167,6 @@ public class frmMain : Form
             this.txtBetNumber.Name = "txtBetNumber";
             this.txtBetNumber.Size = new System.Drawing.Size(100, 20);
             this.txtBetNumber.TabIndex = 9;
-            this.txtBetNumber.Click += txtBetNumber_Click;
             // 
             // lblTimeRemain
             // 
@@ -175,6 +177,21 @@ public class frmMain : Form
             this.lblTimeRemain.Size = new System.Drawing.Size(0, 18);
             this.lblTimeRemain.TabIndex = 10;
             this.lblTimeRemain.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // mnHelp
+            // 
+            this.mnHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.smnAboutProgram});
+            this.mnHelp.Name = "mnHelp";
+            this.mnHelp.Size = new System.Drawing.Size(59, 20);
+            this.mnHelp.Text = "ช่วยเหลือ";
+            // 
+            // smnAboutProgram
+            // 
+            this.smnAboutProgram.Name = "smnAboutProgram";
+            this.smnAboutProgram.Size = new System.Drawing.Size(152, 22);
+            this.smnAboutProgram.Text = "เกี่ยวกับโปรแกรม";
+            this.smnAboutProgram.Click += new System.EventHandler(this.smnAboutProgram_Click);
             // 
             // frmMain
             // 
@@ -205,7 +222,6 @@ public class frmMain : Form
     public frmMain()
     {
         InitializeComponent();
-        GettingProgramReady();
         DisableForm();
     }
 
@@ -234,9 +250,9 @@ public class frmMain : Form
         if (newGame.ReadyStatus == 1)
         {
             GameTypeText = newGame.GameTypeText;
-            this.Text += " - ยินดีต้อนรับคุณ " + newGame.NamePlayer + " รูปแบบเกมของคุณคือ " + GameTypeText;
-            lblTellRange.Text = "ใส่จำนวนที่ต้องการระหว่าง " + newGame.GameTypeText.Substring(0, 4);
-            GettingProgramReady();
+            this.Text += " - ยินดีต้อนรับคุณ " + GameTypeText + " รูปแบบเกมของคุณคือ " + GameTypeText;
+            lblTellRange.Text = "ใส่จำนวนที่ต้องการระหว่าง " + GameTypeText.Substring(0, 4);
+            GettingProgramReady(newGame.ReadyStatus);
             GameType = newGame.GameType;
             myWallet = new clsWallet(GameType);
             UpdateForm();
@@ -262,6 +278,9 @@ public class frmMain : Form
         lblClue.Enabled = false;
         lblTellRange.Enabled = false;
         lblTimeRemain.Enabled = false;
+        lblClue.Text = "";
+        lblTellRange.Text = "ใส่จำนวนที่ต้องการระหว่าง";
+        lblTimeRemain.Text = "";
     }
 
     /***
@@ -284,21 +303,21 @@ public class frmMain : Form
      * return
      *      void
      ***/
-    private void GettingProgramReady()
+    private void GettingProgramReady(int status)
     {
-        if (readyToPlayStatus == 1)
+        if (status == 1)
         {
             txtBetAmount.Enabled = true;
             txtCurrentBalance.Enabled = true;
         }
-        else if (readyToPlayStatus == 0)
+        else if (status == 0)
         {
             txtBetAmount.Enabled = false;
             txtCurrentBalance.Enabled = false;
         }
     }
 
-    private void ReadyToBet()
+    private void ReadyToBet()   //set form to ready to click bet
     {
         btnBet.Enabled = true;
         txtBetNumber.Enabled = true;
@@ -306,7 +325,7 @@ public class frmMain : Form
         btnRandom.Enabled = false;
     }
 
-    private void NotReadyToBet()
+    private void NotReadyToBet()    //set form to not ready to click bet
     {
         btnRandom.Enabled = true;
         btnBet.Enabled = false;
@@ -324,6 +343,12 @@ public class frmMain : Form
         txtBetNumber.SelectAll();
     }
 
+    private void smnAboutProgram_Click(object sender, EventArgs e)
+    {
+        frmAbout about = new frmAbout();
+        about.ShowDialog();
+        return;
+    }
     #endregion helper method
 
     #region general method
@@ -414,6 +439,12 @@ public class frmMain : Form
             txtBetNumber.Clear();
             myWallet.SetWallet(GameType);
             lblClue.Text = "คุณแพ้";
+            if (myWallet.CurrentBalance == 0)
+            {
+                MessageBox.Show("เงินคุณหมดแล้ว!", "เกมจบ");
+                lblClue.Text = "กรุณาเริ่มเกมใหม่";
+                DisableForm();
+            }
             return;
         }
     }

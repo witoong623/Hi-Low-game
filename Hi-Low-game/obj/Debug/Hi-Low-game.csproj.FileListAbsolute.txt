@@ -7,3 +7,5 @@ C:\Users\Aliveplex\Documents\GitHub\Hi-Low-game\Hi-Low-game\obj\Debug\Hi-Low-gam
 C:\Users\Aliveplex\Documents\GitHub\Hi-Low-game\Hi-Low-game\obj\Debug\frmMain.resources
 C:\Users\Aliveplex\Documents\GitHub\Hi-Low-game\Hi-Low-game\obj\Debug\Hi-Low-game.csproj.GenerateResource.Cache
 C:\Users\Aliveplex\Documents\GitHub\Hi-Low-game\Hi-Low-game\obj\Debug\frmNewGame.resources
+C:\Users\Aliveplex\Documents\GitHub\Hi-Low-game\Hi-Low-game\obj\Debug\frmAbout.resources
+C:\Users\Aliveplex\Documents\GitHub\Hi-Low-game\Hi-Low-game\obj\Debug\Hi_Low_game.Properties.Resources.resources
