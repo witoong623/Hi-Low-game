@@ -82,6 +82,7 @@ public class frmMain : Form
             this.txtBetAmount.Size = new System.Drawing.Size(100, 20);
             this.txtBetAmount.TabIndex = 3;
             this.txtBetAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtBetAmount.Click += new System.EventHandler(this.txtBetAmount_Click);
             // 
             // mnsMain
             // 
@@ -167,6 +168,7 @@ public class frmMain : Form
             this.txtBetNumber.Name = "txtBetNumber";
             this.txtBetNumber.Size = new System.Drawing.Size(100, 20);
             this.txtBetNumber.TabIndex = 9;
+            this.txtBetNumber.Click += new System.EventHandler(this.txtBetNumber_Click);
             // 
             // lblTimeRemain
             // 
@@ -438,11 +440,11 @@ public class frmMain : Form
             UpdateForm();
             txtBetNumber.Clear();
             myWallet.SetWallet(GameType);
-            lblClue.Text = "คุณแพ้";
+            lblClue.Text = "คุณแพ้ เลขของคอมพิวเตอร์คือ " + myWallet.CurrentComputerNumber;
             if (myWallet.CurrentBalance == 0)
             {
-                MessageBox.Show("เงินคุณหมดแล้ว!", "เกมจบ");
-                lblClue.Text = "กรุณาเริ่มเกมใหม่";
+                MessageBox.Show("เงินคุณหมดแล้ว!\nตัวเลขของคอมพิวเตอร์คือ " + myWallet.CurrentComputerNumber, "เกมจบ");
+                lblClue.Text = "ตัวเลขคอมพิวเตอร์คือ " + myWallet.CurrentComputerNumber + "\nกรุณาเริ่มเกมใหม่";
                 DisableForm();
             }
             return;

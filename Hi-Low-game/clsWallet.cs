@@ -62,6 +62,14 @@ public class clsWallet
             return numberOfTime;
         }
     }
+
+    public int CurrentComputerNumber
+    {
+        get
+        {
+            return currentComputerNumber;
+        }
+    }
     #endregion property method
 
     #region helper method
