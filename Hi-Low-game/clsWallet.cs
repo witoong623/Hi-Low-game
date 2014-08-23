@@ -6,32 +6,30 @@ using System.Threading.Tasks;
 
 public class clsWallet
 {
-    //========== constant member ==========
     const int BASE10 = 1;
     const int BASE20 = 2;
     const int BASE30 = 3;
     const int DEFAULTBALANCE = 100;
     const int DEFAULTBET = 10;
 
-    //========== instant member ==========
     private int currentBalance;
     private int currentBet;
     private int numberOfTime;
     private int maxRandom;
     private int currentComputerNumber;
 
-    //========== constuctor ==========
-    #region constuctor
+    /// <summary>
+    /// To set defualt balance,bet and game type
+    /// </summary>
+    /// <param name="gameType">
+    /// number that determine game type</param>
     public clsWallet (int gameType)
     {
         currentBalance = DEFAULTBALANCE;
         currentBet = DEFAULTBET;
         SetWallet(gameType);
     }
-    #endregion constuctor
 
-    #region property method
-    //========== property method ==========
     public int CurrentBalance
     {
         get
@@ -70,17 +68,12 @@ public class clsWallet
             return currentComputerNumber;
         }
     }
-    #endregion property method
 
-    #region helper method
-    //========= helper method ==========
-    /***
-     * purpose : set max random number and number that can bet
-     * parameter :
-     *      int gameType
-     * return
-     *      void
-     ***/
+    /// <summary>
+    /// Initial game by set number of time to bet and range of random
+    /// </summary>
+    /// <param name="gameType">
+    /// </param>
     public void SetWallet(int gameType)
     {
         if (gameType == 1)
@@ -93,20 +86,42 @@ public class clsWallet
             numberOfTime = 3;
             maxRandom = 20;
         }
-        else if (gameType == 3)
+        else
         {
             numberOfTime = 4;
             maxRandom = 30;
         }
     }
 
-    /***
-     * purpose : adjust money in wallet depend on win or lose
-     * parameter :
-     *      bool    result
-     * return
-     *      void
-     ***/
+    /// <summary>
+    /// To reset number of time while playing game
+    /// </summary>
+    /// <param name="gameType">
+    /// number that determine game type
+    /// </param>
+
+    public void ResetTime(int gameType)
+    {
+        if (gameType == 1)
+        {
+            numberOfTime = 2;
+        }
+        else if (gameType == 2)
+        {
+            numberOfTime = 3;
+        }
+        else
+        {
+            numberOfTime = 4;
+        }
+    }
+    /// <summary>
+    /// To adjust balance up on result
+    /// </summary>
+    /// <param name="result">
+    /// result from compare method
+    /// number that determine game type
+    /// </param>
     private void AdjustBalance(bool result)
     {
         if (result == true)
@@ -119,33 +134,25 @@ public class clsWallet
         }
     }
 
-    #endregion helper method
-
-    #region general method
-    //========== general method ==========
-    /***
-     * purpose : random new number
-     * parameter :
-     *      N/A
-     * return :
-     *      void
-     ***/
+    /// <summary>
+    /// Random number in range to compare to player
+    /// </summary>
     public void ComputerRandom()
     {
         Random comRandom = new Random();
         currentComputerNumber = comRandom.Next(maxRandom) + 1;
     }
 
-    /***
-     * purpose : use to compare between com and player
-     * parameter :
-     *      int number //number that player pass
-     *      string  textClue    //text to tell player if more or less
-     * return :
-     *      bool true = win false = lose
-     *      string textClue
-     * CUATION : this method use address of textClue
-     ***/
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="number">
+    /// number that player guess
+    /// </param>
+    /// <param name="textClue">
+    /// text that give clue to playaer
+    /// </param>
+    /// <returns> bool true if match otherwise false </returns>
     public bool CompareToComputer(int number,out string textClue)
     {
         numberOfTime--;
@@ -173,5 +180,4 @@ public class clsWallet
             return false;
         }
     }
-    #endregion
 }

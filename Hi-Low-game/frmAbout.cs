@@ -56,6 +56,7 @@ public class frmAbout : Form
             // 
             // frmAbout
             // 
+            this.AcceptButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnClose);

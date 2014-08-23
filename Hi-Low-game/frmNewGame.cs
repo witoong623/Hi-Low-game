@@ -126,15 +126,17 @@ public class frmNewGame : Form
     }
     #endregion windows code
 
-    //=============== constructor ===========
+    /// <summary>
+    /// To Initial form to ready to new game
+    /// </summary>
     public frmNewGame()
     {
         InitializeComponent();
         cbType.SelectedIndex = 0;
         txtPlayerName.Select();
     }
+
     #region property method
-    //================ property method ==============
     public int ReadyStatus
     {
         get
@@ -168,15 +170,11 @@ public class frmNewGame : Form
     }
     #endregion get set method
 
-    #region general method
-
-    /***
-     * purpose : receive information to start game
-     * parameter :
-     *      N/A
-     * return :
-     *      void
-     ***/
+/// <summary>
+/// Button to start game
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
     private void btnStartGame_Click(object sender, EventArgs e)
     {
         GameTypeConsider();
@@ -185,13 +183,9 @@ public class frmNewGame : Form
         Close();
     }
 
-    /***
-     * purpose : determine game type and set text of game type to class property
-     * parameter :
-     *      N/A
-     * return :
-     *      void
-     ***/
+    /// <summary>
+    /// To determine which game type and set game type number and text
+    /// </summary>
     private void GameTypeConsider()
     {
         if (cbType.SelectedIndex == 0)
@@ -215,5 +209,4 @@ public class frmNewGame : Form
     {
         Close();
     }
-    #endregion general method
 }

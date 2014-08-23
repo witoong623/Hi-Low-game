@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Hi-Low-game</name>
+    </assembly>
+    <members>
+        <member name="M:clsWallet.#ctor(System.Int32)">
+            <summary>
+            To set defualt balance,bet and game type
+            </summary>
+            <param name="gameType">
+            number that determine game type</param>
+        </member>
+        <member name="M:clsWallet.SetWallet(System.Int32)">
+            <summary>
+            Initial game by set number of time to bet and range of random
+            </summary>
+            <param name="gameType">
+            </param>
+        </member>
+        <member name="M:clsWallet.ResetTime(System.Int32)">
+            <summary>
+            To reset number of time while playing game
+            </summary>
+            <param name="gameType">
+            number that determine game type
+            </param>
+        </member>
+        <member name="M:clsWallet.AdjustBalance(System.Boolean)">
+            <summary>
+            To adjust balance up on result
+            </summary>
+            <param name="result">
+            result from compare method
+            number that determine game type
+            </param>
+        </member>
+        <member name="M:clsWallet.ComputerRandom">
+            <summary>
+            Random number in range to compare to player
+            </summary>
+        </member>
+        <member name="M:clsWallet.CompareToComputer(System.Int32,System.String@)">
+            <summary>
+            
+            </summary>
+            <param name="number">
+            number that player guess
+            </param>
+            <param name="textClue">
+            text that give clue to playaer
+            </param>
+            <returns> bool true if match otherwise false </returns>
+        </member>
+        <member name="M:frmMain.smnNewGame_Click(System.Object,System.EventArgs)">
+            <summary>
+            Sub menu strip button to show new game window
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:frmMain.DisableForm">
+            <summary>
+            To disable form when need to new game
+            </summary>
+        </member>
+        <member name="M:frmMain.UpdateForm">
+            <summary>
+            To update current balance and bet amount
+            </summary>
+        </member>
+        <member name="M:frmMain.GettingProgramReady(System.Int32)">
+            <summary>
+            To set program to ready to enter bet amount
+            </summary>
+            <param name="status">
+            1 is program ready 0 is not ready
+            </param>
+        </member>
+        <member name="M:frmMain.ReadyToBet">
+            <summary>
+            To set program to ready to bet
+            </summary>
+        </member>
+        <member name="M:frmMain.NotReadyToBet">
+            <summary>
+            To set program to not ready to bet need to click random to continue game
+            </summary>
+        </member>
+        <member name="M:frmMain.btnRandom_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click to ordering computer to random number and set bet amount to bet
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:frmMain.btnBet_Click(System.Object,System.EventArgs)">
+            <summary>
+            Click to compare value between player and computer
+            and show clue message or answer from computer
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:frmNewGame.#ctor">
+            <summary>
+            To Initial form to ready to new game
+            </summary>
+        </member>
+        <member name="M:frmNewGame.btnStartGame_Click(System.Object,System.EventArgs)">
+            <summary>
+            Button to start game
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:frmNewGame.GameTypeConsider">
+            <summary>
+            To determine which game type and set game type number and text
+            </summary>
+        </member>
+        <member name="M:frmRanking.UpdateRanking">
+            <summary>
+            To update ranking by load player stastics from DB
+            </summary>
+        </member>
+        <member name="T:Hi_Low_game.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Hi_Low_game.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Hi_Low_game.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Hi_Low_game.Properties.Resources.aliveplex_program_logo">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="T:DBConnector">
+            <summary>
+            To Connect and perform task concern to DB
+            </summary>
+        </member>
+        <member name="M:DBConnector.#ctor">
+            <summary>
+            To Initialize about DB information such as server database id etc.
+            </summary>
+        </member>
+        <member name="M:DBConnector.OpenConnection">
+            <summary>
+            To open connection to DB
+            It is helper method and use only in this class
+            </summary>
+            <returns>true if connection open otherwise false and show exception messange</returns>
+        </member>
+        <member name="M:DBConnector.CloseConnection">
+            <summary>
+            To close connection this is helper method use only in this class
+            </summary>
+            <returns>True if close otherwise false and show exception message</returns>
+        </member>
+        <member name="M:DBConnector.Insert(System.String,System.Int32)">
+            <summary>
+            To insert new player data to DB with ID to specified each player
+            </summary>
+            <param name="name">
+            Player's name
+            </param>
+            <param name="money">
+            Player's max money
+            </param>
+        </member>
+        <member name="M:DBConnector.Select">
+            <summary>
+            To load player data sort be descending of score
+            </summary>
+            <returns>Array of string list contain name and money</returns>
+        </member>
+        <member name="M:DBConnector.Count">
+            <summary>
+            To count number of row in DB
+            </summary>
+            <returns>Number of row in DB</returns>
+        </member>
+    </members>
+</doc>
