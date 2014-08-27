@@ -24,6 +24,13 @@ public class DBConnector
     {
         Initialize();
     }
+    public DBConnector(string server, string database, string uid, string password)
+    {
+        DBConnector.server = server;
+        DBConnector.database = database;
+        DBConnector.uid = uid;
+        DBConnector.password = password;
+    }
 
     public void Initialize()
     {
@@ -56,7 +63,7 @@ public class DBConnector
             //The two most common error numbers when connecting are as follows:
             //0: Cannot connect to server.
             //1045: Invalid user name and/or password.
-            switch (ex.Number)
+            /*switch (ex.Number)
             {
                 case 0:
                     MessageBox.Show("Cannot connect to server.  Contact administrator");
@@ -65,7 +72,8 @@ public class DBConnector
                 case 1045:
                     MessageBox.Show("Invalid username/password, please try again");
                     break;
-            }
+            }*/
+            MessageBox.Show(ex.Message,"Error with database");
             return false;
         }
     }

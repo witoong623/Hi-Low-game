@@ -44,6 +44,7 @@ public class frmMain : Form
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.smnClose = new System.Windows.Forms.ToolStripMenuItem();
             this.mnHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.smnRanking = new System.Windows.Forms.ToolStripMenuItem();
             this.smnAboutProgram = new System.Windows.Forms.ToolStripMenuItem();
             this.btnBet = new System.Windows.Forms.Button();
             this.btnRandom = new System.Windows.Forms.Button();
@@ -51,7 +52,6 @@ public class frmMain : Form
             this.lblTellRange = new System.Windows.Forms.Label();
             this.txtBetNumber = new System.Windows.Forms.TextBox();
             this.lblTimeRemain = new System.Windows.Forms.Label();
-            this.smnRanking = new System.Windows.Forms.ToolStripMenuItem();
             this.mnsMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -140,6 +140,13 @@ public class frmMain : Form
             this.mnHelp.Size = new System.Drawing.Size(59, 20);
             this.mnHelp.Text = "ช่วยเหลือ";
             // 
+            // smnRanking
+            // 
+            this.smnRanking.Name = "smnRanking";
+            this.smnRanking.Size = new System.Drawing.Size(152, 22);
+            this.smnRanking.Text = "อันดับคะแนน";
+            this.smnRanking.Click += new System.EventHandler(this.smnRanking_Click);
+            // 
             // smnAboutProgram
             // 
             this.smnAboutProgram.Name = "smnAboutProgram";
@@ -171,10 +178,11 @@ public class frmMain : Form
             // 
             this.lblClue.AutoSize = true;
             this.lblClue.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblClue.Location = new System.Drawing.Point(113, 96);
+            this.lblClue.Location = new System.Drawing.Point(110, 96);
             this.lblClue.Name = "lblClue";
             this.lblClue.Size = new System.Drawing.Size(0, 24);
             this.lblClue.TabIndex = 7;
+            this.lblClue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblTellRange
             // 
@@ -202,13 +210,6 @@ public class frmMain : Form
             this.lblTimeRemain.Size = new System.Drawing.Size(0, 18);
             this.lblTimeRemain.TabIndex = 10;
             this.lblTimeRemain.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // smnRanking
-            // 
-            this.smnRanking.Name = "smnRanking";
-            this.smnRanking.Size = new System.Drawing.Size(152, 22);
-            this.smnRanking.Text = "อันดับคะแนน";
-            this.smnRanking.Click += new System.EventHandler(this.smnRanking_Click);
             // 
             // frmMain
             // 
@@ -240,6 +241,7 @@ public class frmMain : Form
     {
         InitializeComponent();
         DisableForm();
+        lblClue.Text = "กรุณากดเริ่มเกมใหม่ที่ \"เมนู\" เพื่อเริ่มเกม";
     }
 
     public static void Main()
@@ -285,7 +287,6 @@ public class frmMain : Form
         btnRandom.Enabled = false;
         txtBetNumber.Enabled = false;
         txtBetAmount.Enabled = false;
-        lblClue.Enabled = false;
         lblTellRange.Enabled = false;
         lblTimeRemain.Enabled = false;
         lblClue.Text = "";
@@ -366,6 +367,7 @@ public class frmMain : Form
         frmRanking ranking = new frmRanking();
         ranking.ShowDialog();
     }
+
     #endregion helper method
 
     #region general method
@@ -474,7 +476,7 @@ public class frmMain : Form
             if (myWallet.CurrentBalance == 0)
             {
                 MessageBox.Show("เงินคุณหมดแล้ว!\nตัวเลขของคอมพิวเตอร์คือ " + myWallet.CurrentComputerNumber, "เกมจบ");
-                MySql.Insert(PlayerName,MaxBalance);
+                MySql.Insert(PlayerName, MaxBalance);
                 MaxBalance = 0;
                 lblClue.Text = "ตัวเลขคอมพิวเตอร์คือ " + myWallet.CurrentComputerNumber + "\nกรุณาเริ่มเกมใหม่";
                 DisableForm();

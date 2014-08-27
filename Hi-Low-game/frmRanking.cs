@@ -77,7 +77,7 @@ public class frmRanking : Form
         List<string>[] ranking = new List<string>[2];
         ListViewItem sub;
         ranking = MySql.Select();
-        for (i = 0; i < ranking[1].Count; i++) //pre = array pos = list deepth
+        for (i = 0; i < ranking[1].Count; i++) //pre = array,pos = list deepth
         {
             sub = new ListViewItem(string.Format("{0}",i + 1));
             sub.SubItems.Add(ranking[0][i]);
